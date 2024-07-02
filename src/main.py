@@ -5,6 +5,7 @@ import requests
 import json
 import time
 import os
+import psycopg2
 
 load_dotenv()
 
@@ -12,6 +13,7 @@ class App:
     def __init__(self):
         self._hub_connection = None
         self.TICKS = 10
+        self.db_connection = self.init_db_connection()
 
         # To be configured by your team
         self.HOST = os.getenv('HOST')  # Utiliser les variables d'environnement
@@ -79,13 +81,29 @@ class App:
         details = json.loads(r.text)
         print(details, flush=True)
 
+    def init_db_connection(self):
+        try:
+            connection = psycopg2.connect(
+                user="user01eq9",
+                password="Nenm1rpZpqHNRUyw",
+                host="157.230.69.113",
+                database="b01eq9"
+            )
+            return connection
+        except (Exception, psycopg2.Error) as error:
+            print("Error while connecting to PostgreSQL", error)
+
     def save_event_to_database(self, timestamp, temperature):
         """Save sensor data into database."""
         try:
             # To implement
+            cursor = self.db_connection.cursor()
+            insert_query = "INSERT INTO sensor_data (timestamp, temperature) VALUES (%s, %s)"
+            cursor.execute(insert_query, (timestamp, temperature))
+            self.db_connection.commit()
             pass
-        except requests.exceptions.RequestException as e:
-            # To implement
+        except (Exception, psycopg2.Error) as error:
+        print("Failed to insert record into table", error)
             pass
 
 
