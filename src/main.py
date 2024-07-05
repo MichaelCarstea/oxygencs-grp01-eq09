@@ -16,7 +16,7 @@ class App:
         self.db_connection = self.init_db_connection()
 
         # To be configured by your team
-        self.HOST = os.getenv('HOST')  # Utiliser les variables d'environnement
+        self.HOST = os.getenv('HOST') # Utiliser les variables d'environnement
         self.TOKEN = os.getenv('TOKEN')
         self.T_MAX = os.getenv('T_MAX')
         self.T_MIN = os.getenv('T_MIN')
@@ -80,6 +80,10 @@ class App:
         r = requests.get(f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{self.TICKS}")
         details = json.loads(r.text)
         print(details, flush=True)
+        cursor = self.db_connection.cursor()
+        insert_query = "INSERT INTO sensor_event (action, timestamp) VALUES (%s, %s)"
+        cursor.execute(insert_query, (action) + (details["timestamp"], ))
+        self.db_connection.commit()
 
     def init_db_connection(self):
         try:
@@ -93,7 +97,7 @@ class App:
         except (Exception, psycopg2.Error) as error:
             print("Error while connecting to PostgreSQL", error)
 
-    def save_event_to_database(self, timestamp, temperature):
+    def save_temperature_to_database(self, timestamp, temperature):
         """Save sensor data into database."""
         try:
             # To implement
