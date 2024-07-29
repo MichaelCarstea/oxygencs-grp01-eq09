@@ -81,7 +81,9 @@ class App:
 
     def send_action_to_hvac(self, action):
         """Send action query to the HVAC service."""
-        r = requests.get(f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{self.TICKS}", timeout=10)
+        r = requests.get(
+            f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{self.TICKS}", timeout=10
+        )
         json.loads(r.text)
         self.save_event_to_database(action)
 
