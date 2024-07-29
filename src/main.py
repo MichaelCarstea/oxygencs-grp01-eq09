@@ -77,7 +77,6 @@ class App:
         elif float(temperature) <= float(self.T_MIN):
             print("TurnOnHeater")
             self.send_action_to_hvac("TurnOnHeater")
-        print("In take action past ifs")
 
     def send_action_to_hvac(self, action):
         """Send action query to the HVAC service."""
