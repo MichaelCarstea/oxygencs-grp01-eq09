@@ -1,3 +1,4 @@
 signalrcore
 pipenv
 python-dotenv
+psycopg2-binary
