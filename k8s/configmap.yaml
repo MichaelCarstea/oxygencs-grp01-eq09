@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oxygencs-configmap
+data:
+  HOST: "http://159.203.50.162"
+  T_MAX: "24"
+  T_MIN: "19"

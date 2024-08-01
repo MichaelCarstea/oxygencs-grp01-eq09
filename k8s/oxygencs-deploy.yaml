@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oxygencs-controller
+  namespace: grp01eq9-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oxygencs-controller
+  template:
+    metadata:
+      labels:
+        app: oxygencs-controller
+    spec:
+      containers:
+      - name: oxygencs-controller
+        image: mcarstea1944/oxygen-cs:latest
+        env:
+          - name: HOST
+            valueFrom:
+              configMapKeyRef:
+                name: oxygencs-configmap        
+                key: HOST 
+          - name: T_MAX
+            valueFrom:
+              configMapKeyRef:
+                name: oxygencs-configmap        
+                key: T_MAX 
+          - name: T_MIN
+            valueFrom:
+              configMapKeyRef:
+                name: oxygencs-configmap        
+                key: T_MIN 
+          - name: TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: oxygencs-secrets
+                key: TOKEN
+        ports:
+        - containerPort: 80
+        resources:
+              requests:
+                cpu: "100m"
+                memory: "128Mi"
+              limits:
+                cpu: "200m"
+                memory: "256Mi"
