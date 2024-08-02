@@ -51,12 +51,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           
-      - name: Connect and get k8s pods
-        uses: actions-hub/kubectl@master
-        env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      - name: Set up Kubectl
+        uses: azure/k8s-set-context@v1
         with:
-          args: get pods
+          kubeconfig: ${{ secrets.KUBECONFIG }}
     
       - name: Deploy k8s yaml
         id: deploy-k8s-yaml
