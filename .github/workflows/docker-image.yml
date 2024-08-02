@@ -51,10 +51,12 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           
-      - name: Set up Kubectl
-        uses: azure/k8s-set-context@v1
+
+      - uses: azure/setup-kubectl@v4
+
+      - uses: Azure/k8s-set-context@v4
         with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
     
       - name: Deploy k8s yaml
         id: deploy-k8s-yaml
