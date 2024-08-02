@@ -71,7 +71,7 @@ class App:
 
     def take_action(self, temperature):
         """Take action to HVAC depending on current temperature."""
-        if float(temperature) >= float(self.T_MAX):
+        if float(temperature) >= float(self.T_MAX) + 10:
             print("turnOnAC")
             self.send_action_to_hvac("TurnOnAc")
         elif float(temperature) <= float(self.T_MIN):
